@@ -1,0 +1,29 @@
+{
+  "name": "team-profiles",
+  "version": "1.0.0",
+  "description": "OOP and testing for week 10 homework",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest --verbose test/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andrew836-dev/team-profiles.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Andrew836-dev/team-profiles/issues"
+  },
+  "homepage": "https://github.com/Andrew836-dev/team-profiles#readme",
+  "dependencies": {
+    "inquirer": "^6.3.1"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0"
+  }
+}
