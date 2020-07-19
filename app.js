@@ -9,6 +9,7 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const preview = require("./lib/previewRenderer");
 
 // Array for holding employee info until they get rendered.
 const employees = [];
@@ -82,6 +83,8 @@ function createIntern(employeeData) {
 
 function pushAndAskForMore(employee) {
     employees.push(employee);
+    console.log("Preview of employee list");
+    preview(employees);
     inquirer.prompt([{
         type: "confirm",
         message: `${employees.length} total employees. Add another?`,
