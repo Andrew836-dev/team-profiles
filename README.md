@@ -20,14 +20,15 @@ The prompts will ask for:
 * Employee email
 * Employee role (Intern, Engineer, Manager)
 
-
 Then after a role is selected, another question relevant to that role will be asked.
 * School for Interns
 * Github username for Engineers
 * Office Number for Mangers
 
+<img src="./img/team-profiles-first-employee.png" alt="Image showing command line executing and first employee entered">
+<img src="./img/team-profiles-just-say-no.png" alt="Image showing the user choosing the end the program and the HTML file being generated">
+<img src="./img/team-profiles-output.png" alt="Image showing the final HTML page">
 
-The generated file will be named after your project.  
 ## License
 This project uses a MIT license.
 ## Contributing
