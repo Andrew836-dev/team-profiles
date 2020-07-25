@@ -124,9 +124,9 @@ function createHTML() {
 }
 
 function init() {
+    console.clear();
     console.log("Enter the details for yourself first and then your employees.\nA summary html file will be created");
     createManager();
 }
 
 init();
-
