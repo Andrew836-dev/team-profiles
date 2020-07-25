@@ -10,19 +10,33 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <script src="https://kit.fontawesome.com/c502137733.js"></script>
+    <style>
+        .employee-card {
+            box-shadow: -1px -1px 3px 3px white, 0px 0px 3px 3px grey;
+        }
+        .engineer {
+            background-color: rgba(0, 0, 255, 0.03);
+        }
+        .intern {
+            background-color: rgba(0, 255, 0, 0.03);
+        }
+        .manager {
+            background-color: rgba(255, 0, 0, 0.03);
+        }
+    </style>
 </head>
 
-<body>
+<body class="bg-light">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12 jumbotron mb-3 team-heading">
+            <div class="col-12 jumbotron mb-3 team-heading employee-card">
                 <h1 class="text-center">My Team</h1>
             </div>
         </div>
     </div>
     <div class="container">
         <div class="row">
-            <div class="team-area col-12 d-flex justify-content-center">
+            <div class="team-area col-12 d-flex flex-wrap align-content-stretch justify-content-center">
                 {{ team }}
             </div>
         </div>
