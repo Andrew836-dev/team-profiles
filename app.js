@@ -15,85 +15,102 @@ const preview = require("./lib/previewRenderer");
 const employees = [];
 
 // questions common to all employees
-function askInitialQuestions() {
+function askInitialQuestions(role) {
     return inquirer.prompt([
         {
-            message: "Please enter the employee name:",
+            message: `Please enter ${role} name:`,
             name: "name"
         },
         {
-            message: "Please enter the employee ID:",
+            message: `Please enter ${role} ID number:`,
             name: "id"
         },
         {
-            message: "Please enter the employee email address:",
+            message: `Please enter ${role} email address:`,
             name: "email"
-        },
-        {
-            type: "list",
-            message: "Please choose the employee role:",
-            choices: ["Intern", "Engineer", "Manager"],
-            name: "role"
         }
     ]);
 }
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-function promptForEmployeeData() {
-    askInitialQuestions().then(employeeData => {
-        switch (employeeData.role) {
-            case "Intern":
-                return createIntern(employeeData);
-            case "Engineer":
-                return createEngineer(employeeData);
-            case "Manager":
-                return createManager(employeeData);
-            default:
-                console.log("Something went wrong with the switch");
-        }
+function promptForEmployeeData(role) {
+    askInitialQuestions().then(response => handleData(response));
+    //,
+    //,
+    // 
+}
+
+function handleData(employeeData) {
+    switch (employeeData.role) {
+        case "Intern":
+            return createIntern(employeeData);
+        case "Engineer":
+            return createEngineer(employeeData);
+        case "Manager":
+            return createManager(employeeData);
+        default:
+            console.log("Something went wrong with the switch");
+    }
+}
+
+function createManager() {
+    askInitialQuestions("your").then(({ name, id, email }) => {
+        inquirer.prompt(
+            {
+                type: "input",
+                message: "Please enter the office number for the manager:",
+                name: "officeNumber"
+            }
+        ).then(({ officeNumber }) =>
+            pushAndAskIfFinished(new Manager(name, id, email, officeNumber)));
     });
 }
 
-function createEngineer(employeeData) {
-    inquirer.prompt([{
-        message: "Please enter the github name for the engineer:",
-        name: "github"
-    }]).then(answer =>
-        pushAndAskForMore(new Engineer(employeeData.name, employeeData.id, employeeData.email, answer.github))
-    );
+function createEngineer() {
+    askInitialQuestions("the engineer's").then(({ name, id, email }) => {
+        inquirer.prompt(
+            {
+                type: "input",
+                message: "Please enter the github name for the engineer:",
+                name: "github"
+            }
+        ).then(({ github }) =>
+            pushAndAskIfFinished(new Engineer(name, id, email, github))
+        );
+    });
 }
 
-function createManager(employeeData) {
-    inquirer.prompt([{
-        message: "Please enter the office number for the manager:",
-        name: "officeNumber"
-    }]).then(answer =>
-        pushAndAskForMore(new Manager(employeeData.name, employeeData.id, employeeData.email, answer.officeNumber))
-    );
+function createIntern() {
+    askInitialQuestions("the intern's").then(({ name, id, email }) => {
+        inquirer.prompt(
+            {
+                type: "input",
+                message: "Please enter the school for the intern:",
+                name: "school"
+            }
+        ).then(({ school }) =>
+            pushAndAskIfFinished(new Intern(name, id, email, school)));
+    });
 }
 
-function createIntern(employeeData) {
-    inquirer.prompt({
-        message: "Please enter the school for the intern:",
-        name: "school"
-    }).then(answer =>
-        pushAndAskForMore(new Intern(employeeData.name, employeeData.id, employeeData.email, answer.school))
-    );
-}
-
-function pushAndAskForMore(employee) {
+function pushAndAskIfFinished(employee) {
     employees.push(employee);
     console.log("Preview of employee list");
     preview(employees);
-    inquirer.prompt([{
-        type: "confirm",
+    inquirer.prompt({
+        type: "list",
         message: `${employees.length} total employees. Add another?`,
+        choices: ["Engineer", "Intern", "No thanks, I'm finished"],
         name: "anotherEmployee"
-    }]).then(({ anotherEmployee }) => (anotherEmployee ? promptForEmployeeData() : createHTML()));
+    }).then(({ anotherEmployee }) => {
+        if (anotherEmployee === "Engineer") createEngineer();
+        else if (anotherEmployee === "Intern") createIntern();
+        else createHTML();
+    });
 }
 
 function createHTML() {
-    console.log("Grats!");
+    console.log("Input completed");
     const outputData = render(employees);
     if (!fs.existsSync(outputPath)) {
         console.log("Creating output Path");
@@ -106,9 +123,9 @@ function createHTML() {
     fs.writeFileSync(outputPath, outputData);
 }
 
-function init(){
-    console.log("Enter the details for your employees and a summary html file will be created");
-    promptForEmployeeData();
+function init() {
+    console.log("Enter the details for yourself first and then your employees.\nA summary html file will be created");
+    createManager();
 }
 
 init();
